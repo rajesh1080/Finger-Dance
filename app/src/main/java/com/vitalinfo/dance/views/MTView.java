@@ -62,6 +62,8 @@ public class MTView extends SurfaceView implements SurfaceHolder.Callback {
       c.drawColor(Color.BLACK);
       if (event.getAction() == MotionEvent.ACTION_UP) {
 // clear everything
+        float tWidth = textPaint.measureText(START_TEXT);
+        c.drawText(START_TEXT, width / 2 - tWidth / 2, height / 2, textPaint);
       } else {
 // draw crosshairs first then circles as a second pass
         for (int i = 0; i < pointerCount; i++) {

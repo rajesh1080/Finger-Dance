@@ -40,6 +40,19 @@
             android:layout_centerHorizontal="true"
             android:id="@+id/startGame"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blackForText"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:layout_below="@+id/startGame"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:padding="@dimen/normalPadding"
+            android:layout_alignParentRight="true"
+            android:text="@string/testMaxPointer"
+            android:id="@+id/testPointers"/>
+
+
     </RelativeLayout>
 
 </RelativeLayout>

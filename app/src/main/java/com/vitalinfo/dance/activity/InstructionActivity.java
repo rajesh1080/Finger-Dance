@@ -7,9 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -82,12 +80,21 @@ public class InstructionActivity extends AppCompatActivity {
       }
     });
 
+    TextView testPointers = (TextView) findViewById(R.id.testPointers);
+    testPointers.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent intent = new Intent(getApplicationContext(), TestActivity.class);
+        startActivity(intent);
+      }
+    });
 
+    /* trying to get exact no of touch pointer allowed simultaneously
     ViewConfiguration vc = ViewConfiguration.get(getApplicationContext());
     Log.e(Constants.TAG, "Hi getScaledDoubleTapSlop = " + vc.getScaledDoubleTapSlop());
     Log.e(Constants.TAG, "Hi getScaledEdgeSlop = " + vc.getScaledEdgeSlop());
     Log.e(Constants.TAG, "Hi getScaledTouchSlop = " + vc.getScaledTouchSlop());
-
+    */
   }
 
   private void notSupportedPopup() {
@@ -101,6 +108,7 @@ public class InstructionActivity extends AppCompatActivity {
         finish();
       }
     });
+    builder.setCancelable(false);
     builder.create().show();
   }
 }

@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.InputDevice;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -47,11 +45,12 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     LinearLayout ll = (LinearLayout) findViewById(R.id.tileParent);
-    int n = bundle.getInt(Constants.BOARD_SIZE_KEY, 3);
+    int n = bundle.getInt(Constants.BOARD_SIZE_KEY, 3);// get board size
     int cellWidth = (int) (Utils.getScreenWidth(getApplicationContext()) / n);
     tileIDList = new ArrayList<Integer>();
     LinearLayout childLL;
     int id;
+    // Create Board
     for(int i = 0; i < n; i++) {
       childLL = new LinearLayout(getApplicationContext());
       childLL.setOrientation(LinearLayout.HORIZONTAL);
@@ -72,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.menu_main, menu);
+    //getMenuInflater().inflate(R.menu.menu_main, menu);
     return true;
   }
 
@@ -94,7 +93,11 @@ public class MainActivity extends AppCompatActivity {
   private void selectRandomTile() {
     if(tileIDList == null) return;
     int len = tileIDList.size();
-    if(len == 0) return;
+    //Log.e(Constants.TAG, "tile array size =" + len);
+    if(len == 0) {
+      gameOverPopUp(2);
+      return;
+    }
     Random r = new Random();
     int i = r.nextInt(len);
     int id = tileIDList.get(i);
@@ -103,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
     selectedTile.setSelected(true);
   }
 
+  // create a new tile
   private TextView getTileView(final int id, int cellWidth) {
     TextView tile = new TextView(getApplicationContext());
     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(cellWidth, cellWidth, 1);
@@ -113,61 +117,48 @@ public class MainActivity extends AppCompatActivity {
     //tile.setBackgroundColor(Color.BLACK);
     tile.setId(id);
     //tile.setPadding(20, 20, 20, 20);
-
-
     return tile;
   }
 
   @Override
   public boolean onTouchEvent(MotionEvent event){
-    //this.gestureDetectorCompat.onTouchEvent(event);
-    // Be sure to call the superclass implementation
-
-    Log.e(Constants.TAG, "hi range = " + InputDevice. getDevice(event.getDeviceId()).getMotionRanges().get(0).getMax());
+    
+   // Log.e(Constants.TAG, "hi range = " + InputDevice. getDevice(event.getDeviceId()).getMotionRanges().get(0).getMax());
     int action = event.getAction();
     switch(action & MotionEvent.ACTION_MASK) {
       case MotionEvent.ACTION_DOWN:
-        int count = event.getPointerCount(); // Number of 'fingers' in this time
-        //Log.e(Constants.TAG, " ACTION_DOWN Down " + count + " x= " + event.getX() + " y = " + event.getY());
         if(isSelectedTileTapped(event.getX(), event.getY()) ) {
           selectRandomTile();
         } else {
           //Log.e(Constants.TAG, " select wrong");
-          gameOverPopUp();
+          gameOverPopUp(0);
         }
 
         break;
       case MotionEvent.ACTION_POINTER_DOWN:
         // multitouch!! - touch down
-        count = event.getPointerCount(); // Number of 'fingers' in this time
+        int count = event.getPointerCount(); // Number of 'fingers' in this time
         count = count - 1;
-        //Log.e(Constants.TAG, " pointer Down " + count + " x= " + event.getX(event.getPointerId(count)) + " y = " + event.getY(event.getPointerId(count)));
         if(isSelectedTileTapped(event.getX(event.getPointerId(count)), event.getY(event.getPointerId(count)))) {
           selectRandomTile();
         } else {
           //Log.e(Constants.TAG, " select wrong");
-          gameOverPopUp();
+          gameOverPopUp(0);
         }
 
         break;
       case MotionEvent.ACTION_UP :
-        //Log.e(Constants.TAG, " select ACTION_UP");
-        gameOverPopUp();
-        break;
       case MotionEvent.ACTION_POINTER_UP :
-        //Log.e(Constants.TAG, " select ACTION_POINTER_UP");
-        gameOverPopUp();
+        gameOverPopUp(1);
         break;
     }
 
     return super.onTouchEvent(event);
   }
 
+  // check if the x and Y is in selected tile area.
   private boolean isSelectedTileTapped(float x, float y) {
     if(selectedTile == null) return false;
-    //Log.e(Constants.TAG, " left = " + getRelativeLeft(selectedTile) + " Right = " + getRelativeRight(selectedTile));
-    //Log.e(Constants.TAG, " width = " + selectedTile.getWidth() + " x = " + x);
-
     if(x > getRelativeLeft(selectedTile) && x < getRelativeRight(selectedTile) && y > getRelativeTop(selectedTile) && y < getRelativeBottom(selectedTile)) {
       return true;
     }
@@ -201,11 +192,19 @@ public class MainActivity extends AppCompatActivity {
       return myView.getBottom() + getRelativeTop((View) myView.getParent());
   }
 
-  private void gameOverPopUp() {
-    if(isGameOverPopupShowing == true) return;
+  //create and shoe game over popup
+  private void gameOverPopUp(int reason) {
+    if(isGameOverPopupShowing == true) return;// prevent duplicate creation of same pop up
     final AlertDialog.Builder builder = new AlertDialog.Builder(this);
     builder.setTitle(R.string.gameOverTitle);
-    builder.setMessage(R.string.restartGameText);
+    if(reason == 0) {
+      builder.setMessage(R.string.restartGameTextWrongTile);
+    } else if(reason == 1){
+      builder.setMessage(R.string.restartGameTextFingerLifted);
+    } else {
+      builder.setMessage(R.string.restartGameTextNoTileLeft);
+    }
+    builder.setCancelable(false);
     builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
@@ -222,6 +221,7 @@ public class MainActivity extends AppCompatActivity {
               view.setSelected(false);
             }
             tileIDList.add(view.getId());
+            //Log.e(Constants.TAG, "add tile id" + view.getId());
           }
         }
         selectRandomTile();
