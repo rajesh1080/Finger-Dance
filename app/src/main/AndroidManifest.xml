@@ -2,11 +2,17 @@
 <manifest package="com.vitalinfo.dance"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:name=".application.MyApplication"
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.InstructionActivity"
@@ -37,6 +43,10 @@
 
         </activity>
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="b673e0f6fb2f1b7d55062bde177d725c4e20cd72" />
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

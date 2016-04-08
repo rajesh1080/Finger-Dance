@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-
-
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:fillViewport="true"
+                android:layout_height="match_parent">
     <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_centerVertical="true"
-                    android:padding="@dimen/normalPadding"
-                    android:layout_height="wrap_content">
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:background="@android:color/white"
+                    >
+
 
         <Spinner
             android:layout_width="match_parent"
@@ -16,15 +16,17 @@
             android:entries="@array/boardSize"
             android:layout_centerHorizontal="true"
             android:id="@+id/boardSize"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
             >
         </Spinner>
 
-        <TextView
+        <WebView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/blackForText"
             android:textAppearance="?android:textAppearanceSmall"
             android:layout_below="@+id/boardSize"
+
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:id="@+id/instruction"/>
 
@@ -53,6 +55,8 @@
             android:id="@+id/testPointers"/>
 
 
+
+
     </RelativeLayout>
 
-</RelativeLayout>
+</ScrollView>

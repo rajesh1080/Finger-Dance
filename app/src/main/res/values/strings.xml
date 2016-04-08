@@ -20,7 +20,13 @@
     <string name="multiTouchNotSupportedTitle">Not Supported</string>
     <string name="multiTouchNotSupportedDesc">Multitouch not supported on the device</string>
 
-    <string name="instructionText">Please choose board size.\nThe player would touch and hold the highlighted F-tile, after that new tile will be  highlighted.\nThe 2nd player would touch and hold the next highlighted tile. \nGoes on unitl:\n \t The player clicks on the Worng tile.\n \t The player lifts his finger from previously selected tile</string>
+    <string name="instruction">Instruction</string>
+    <string name="instructionTextLine1">Please choose board size.</string>
+    <string name="instructionTextLine2">The player would touch and hold the highlighted F-tile, after that new tile will be  highlighted.</string>
+    <string name="instructionTextLine3">The 2nd player would touch and hold the next highlighted tile.</string>
+    <string name="instructionTextLine4">Goes on unitl:</string>
+    <string name="instructionTextLine5"><li>The player clicks on the Worng tile.</li></string>
+    <string name="instructionTextLine6">The player lifts his finger from previously selected tile</string>
     <string name="moreThanThreeTouchAllowed">This Device supports 1 or more fingers per person.</string>
     <string name="moreThanFiveTouchAllowed">This Device supports 2 or more fingers per person.</string>
 

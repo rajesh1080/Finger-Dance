@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   public boolean onTouchEvent(MotionEvent event){
-    
+
    // Log.e(Constants.TAG, "hi range = " + InputDevice. getDevice(event.getDeviceId()).getMotionRanges().get(0).getMax());
     int action = event.getAction();
     switch(action & MotionEvent.ACTION_MASK) {
